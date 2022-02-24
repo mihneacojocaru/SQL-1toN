@@ -1,18 +1,26 @@
 {
   "name": "sql-sequelize-1ton",
   "version": "1.0.0",
-  "description": "SQL 1toN",
-  "main": "app.js",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./app.js"
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mihneacojocaru/SQL-1toN.git"
   },
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mihneacojocaru/SQL-1toN/issues"
+  },
+  "homepage": "https://github.com/mihneacojocaru/SQL-1toN#readme",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.17.2",
+    "express": "^4.17.3",
     "mysql2": "^2.3.3",
-    "sequelize": "^6.16.1"
+    "sequelize": "^6.16.3",
+    "sequelize-cli": "^6.4.1"
   }
 }
