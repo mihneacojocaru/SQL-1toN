@@ -1,9 +1,21 @@
 const express = require('express');
+const {sequelize} = require('../models');
+const { QueryTypes } = require('sequelize');
 
 const{User,Post} = require('../models');
 const user = require('../models/user');
 
 const appRoute = express.Router();
+
+function asyncHandler(callBack){
+    return async (req,res,next) => {
+        try {
+            await callBack(req,res,next);
+        } catch (error) {
+            next(error);
+        }
+    }
+}
 
 //--- USERS
 
@@ -72,3 +84,53 @@ appRoute.post('/posts', async(req,res)=>{
 });
 
 module.exports = appRoute;
+
+//Get all posts
+appRoute.get('/posts', async(req,res)=>{
+    
+    try {
+        const posts = await Post.findAll();
+        return res.status(200).json(posts);
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json(error);
+    }
+});
+
+//Cate postari are fiecare user
+
+appRoute.get('/posts/howMany/:id', async(req,res)=>{
+    const user = req.params.id;
+    try {
+        const results = await sequelize.query(`SELECT COUNT(userId) AS "howMany" FROM Posts WHERE userId=${user}`,
+        {
+           nest: true,
+           type: QueryTypes.SELECT
+        });     
+        return res.status(200).json(results);
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json(error);
+    }
+});
+
+//Postarile unui user
+
+appRoute.get('/posts/myPosts/:id', async(req,res,next)=>{
+    const user = req.params.id;
+    try {
+        const results = await sequelize.query(`select * from Posts where userId = ${user}`,
+        {
+           nest: true,
+           type: QueryTypes.SELECT
+        });
+        if(results.length == 0) throw new Error(`User id doesn't exist.`);
+        return res.status(200).json(results);
+        
+    } catch (error) {
+        next(error);
+    }
+});     
+

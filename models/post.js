@@ -38,7 +38,8 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey:{
         fieldName:'userId',
         allowNull:false
-      }
+      },
+      onDelete:'Cascade',
 
     })
     
